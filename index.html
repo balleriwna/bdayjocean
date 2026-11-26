@@ -197,7 +197,7 @@ footer p{max-width:540px;margin:16px auto 28px}
 </head>
 <body>
 <div id="splash"><div><button class="env" id="env" aria-label="Open the envelope">💌</button><h2>A little something for you, Jean</h2><p>Tap the envelope to open it, and turn your sound on 🎧<br><em>From Biyel, with love</em></p></div></div>
-<audio id="bgm" src="assets/music.mp3" loop preload="auto"></audio>
+<audio id="bgm" src="music.mp3" loop preload="auto"></audio>
 <div id="lb" role="dialog" aria-label="Photo"><img alt=""></div>
 <div id="amb" aria-hidden="false"></div>
 
@@ -228,18 +228,16 @@ footer p{max-width:540px;margin:16px auto 28px}
   <figure class="cell v">
     <span class="stk">Featured Memory ✦</span>
     <div class="fr">
-      <video id="vd" playsinline preload="metadata" poster="assets/video-cover.jpg">
-        <source src="assets/video.mp4" type="video/mp4">
-      </video>
+      <video id="vd" playsinline preload="metadata" src="video.mp4"></video>
       <button class="play" id="pl" aria-label="Play video">▶</button>
     </div>
     <figcaption>Press play, Kak. Even through a screen, your laugh turns an ordinary day into a good one.</figcaption>
   </figure>
-  <figure class="cell c1"><div class="fr"><img data-ph="#86EFAC" data-src="assets/photo1.jpg" alt="Photo 1"></div><figcaption>Proof that family can be found in the most unexpected places.</figcaption></figure>
-  <figure class="cell c2"><span class="flw">🌼</span><div class="fr"><img data-ph="#FDE047" data-src="assets/photo2.jpg" alt="Photo 2"></div><figcaption>Your kindness sounds like a soft “are you okay, really?”</figcaption></figure>
-  <figure class="cell c3"><div class="fr"><img data-ph="#FDA4AF" data-src="assets/photo3.jpg" alt="Photo 3"></div><figcaption>Small moments, big heart. That is you.</figcaption></figure>
-  <figure class="cell c4"><div class="fr"><img data-ph="#D8B4FE" data-src="assets/photo4.jpg" alt="Photo 4"></div><figcaption>A time zone can’t shrink a friendship.</figcaption></figure>
-  <figure class="cell c5"><span class="flw">⭐</span><div class="fr"><img data-ph="#93C5FD" data-src="assets/photo5.jpg" alt="Photo 5"></div><figcaption>Forever grateful our paths crossed. You’re my favorite plot twist.</figcaption></figure>
+  <figure class="cell c1"><div class="fr"><img data-ph="#86EFAC" data-base="photo1" alt="Photo 1"></div><figcaption>Proof that family can be found in the most unexpected places.</figcaption></figure>
+  <figure class="cell c2"><span class="flw">🌼</span><div class="fr"><img data-ph="#FDE047" data-base="photo2" alt="Photo 2"></div><figcaption>Your kindness sounds like a soft “are you okay, really?”</figcaption></figure>
+  <figure class="cell c3"><div class="fr"><img data-ph="#FDA4AF" data-base="photo3" alt="Photo 3"></div><figcaption>Small moments, big heart. That is you.</figcaption></figure>
+  <figure class="cell c4"><div class="fr"><img data-ph="#D8B4FE" data-base="photo4" alt="Photo 4"></div><figcaption>A time zone can’t shrink a friendship.</figcaption></figure>
+  <figure class="cell c5"><span class="flw">⭐</span><div class="fr"><img data-ph="#93C5FD" data-base="photo5" alt="Photo 5"></div><figcaption>Forever grateful our paths crossed. You’re my favorite plot twist.</figcaption></figure>
  </div>
 </div></section>
 
@@ -286,22 +284,40 @@ function bal(c,w,num){var b=document.createElement('button');b.className='bl';b.
  b.innerHTML='<svg viewBox="0 0 60 110"><ellipse cx="30" cy="34" rx="26" ry="32" fill="'+c+'" opacity=".92"/><ellipse cx="20" cy="21" rx="6" ry="11" fill="#fff" opacity=".55" transform="rotate(20 20 21)"/><path d="M30 66l-5 7h10z" fill="'+c+'"/><path d="M30 73q-10 12 0 22t0 14" fill="none" stroke="#1E3A8A" stroke-opacity=".4" stroke-width="1.5"/>'+(num?'<text x="30" y="43" font-size="24" font-weight="800" fill="#1E3A8A" text-anchor="middle" font-family="Fraunces,serif">'+num+'</text>':'')+'</svg>';return b}
 function pop(b){var r=b.getBoundingClientRect();conf(r.left+r.width/2,r.top+r.height/3);b.remove()}
 
-/* ambient balloons drifting upward */
+/* ambient balloons */
 function amb(){var b=bal(C[Math.random()*C.length|0],36+Math.random()*24);b.style.left=Math.random()*92+'%';b.style.animationDuration=(24+Math.random()*16)+'s';$('#amb').appendChild(b);b.onclick=function(){pop(b);setTimeout(amb,5000)};b.onanimationend=function(){b.remove();amb()}}
 for(var i=0;i<6;i++)(function(i){setTimeout(amb,i*3500)})(i);
 
-/* wish game - responsive positioning for mobile & desktop */
+/* wish game */
 var W=['May happiness find you in every ordinary hour, Kak, and stay a long, long while.','May your mind be quiet and your heart at peace, even on the loud days.','May your health stay steady and strong, and may rest come to you easily.','May every dream you carry quietly come true, one gentle step at a time.','May you always feel loved, even from far away. Because you are, so much.'],got=0;
 for(var i=0;i<5;i++)(function(i){var b=bal(['#93C5FD','#FDE047','#FDA4AF','#D8B4FE','#86EFAC'][i],74,i+1);b.classList.add('wish');b.style.left=(4+i*19.5)+'%';b.style.top=(i%2?55:10)+'px';b.style.animationDelay='-'+(i*.9)+'s';
  b.onclick=function(){pop(b);got++;toast('<small>✦ Wish '+(i+1)+' of 5 ✦</small><q>'+W[i]+'</q><i>— Biyel</i>');$('#cnt').textContent='Wishes from Biyel: '+got+' / 5';if(got==5){setTimeout(function(){for(var k=0;k<7;k++)conf(innerWidth*(k+.5)/7,innerHeight*.2,32);$('#go').style.display='inline-block';$('#cnt').textContent='All 5 wishes caught! 🎉'},600)}};$('#stg').appendChild(b)})(i);
 $('#go').onclick=function(){$('#gallery').scrollIntoView()};
 
-/* photos & video cover fallback */
-document.querySelectorAll('img[data-ph]').forEach(function(im){var c=im.dataset.ph;im.onerror=function(){im.onerror=null;im.src='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><rect width="400" height="400" fill="'+c+'"/><text x="200" y="210" font-family="sans-serif" font-size="20" fill="#1E3A8A" text-anchor="middle">'+im.dataset.src+'</text></svg>')};im.src=im.dataset.src;im.onclick=function(){$('#lb img').src=im.src;$('#lb').classList.add('on')}});
+/* smart photo loader: otomatis cek .jpg, .jpeg, .png, .JPG, .JPEG, .PNG di root */
+var exts=['.jpg','.jpeg','.png','.JPG','.JPEG','.PNG'];
+document.querySelectorAll('img[data-base]').forEach(function(im){
+  var base=im.dataset.base,c=im.dataset.ph,idx=0;
+  im.onerror=function(){
+    idx++;
+    if(idx<exts.length){
+      im.src=base+exts[idx];
+    }else{
+      im.onerror=null;
+      im.src='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><rect width="400" height="400" fill="'+c+'"/><text x="200" y="210" font-family="sans-serif" font-size="22" font-weight="bold" fill="#1E3A8A" text-anchor="middle">'+base+'.jpg</text></svg>');
+    }
+  };
+  im.src=base+exts[0];
+  im.onclick=function(){$('#lb img').src=im.src;$('#lb').classList.add('on')};
+});
 $('#lb').onclick=function(){this.classList.remove('on')};
 
-var v=$('#vd'),pl=$('#pl');
-v.onerror=function(){v.poster='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450"><rect width="800" height="450" fill="#DBEAFE"/><text x="400" y="230" font-family="sans-serif" font-size="24" fill="#1E3A8A" text-anchor="middle">assets/video.mp4 (16:9 Landscape)</text></svg>')};
+/* smart video loader: cek video.mp4, video.MP4, video.mov */
+var v=$('#vd'),pl=$('#pl'),vExts=['video.mp4','video.MP4','video.mov','video.MOV'],vIdx=0;
+v.onerror=function(){
+  vIdx++;
+  if(vIdx<vExts.length){v.src=vExts[vIdx];v.load();}
+};
 pl.onclick=function(){v.controls=true;v.play();pl.classList.add('hide')};
 v.onplay=function(){stopM()};
 v.onpause=v.onended=function(){if(on)startM()};
@@ -329,7 +345,7 @@ candles();$('#relight').onclick=candles;
 /* release balloons */
 $('#rel').onclick=function(){var r=this.getBoundingClientRect();conf(r.left+r.width/2,r.top,44);for(var i=0;i<14;i++)(function(i){setTimeout(function(){var b=bal(C[i%C.length],52);b.style.cssText+=';position:fixed;z-index:70;left:'+Math.random()*(innerWidth-60)+'px;top:'+(innerHeight+10)+'px';document.body.appendChild(b);var dx=(Math.random()-.5)*140;b.animate([{transform:'translate(0,0)'},{transform:'translate('+dx+'px,'+-(innerHeight+220)+'px)'}],{duration:4500+Math.random()*2500,easing:'ease-out'}).onfinish=function(){b.remove()};b.onclick=function(){pop(b)}},i*150)})(i)};
 
-/* music: assets/music.mp3 if present, else a synthesized music-box lullaby */
+/* music */
 var au=$('#bgm'),on=false,syn=false,ac,mi,k=0,N=[330,330,392,0,330,330,392,0,330,392,523,494,440,440,392,0,349,294,330,349,294,330,349,440,392,349,330,294,262,0];
 function ui(){$('#mus').setAttribute('aria-pressed',on);$('#mus').textContent=on?'Pause ❚❚':'Play Music ♪'}
 function note(){var f=N[k++%N.length];if(!f)return;var t=ac.currentTime,o=ac.createOscillator(),o2=ac.createOscillator(),g=ac.createGain();o.type='sine';o2.type='triangle';o.frequency.value=f;o2.frequency.value=f*2;g.gain.setValueAtTime(.14,t);g.gain.exponentialRampToValueAtTime(.001,t+1.1);o.connect(g);o2.connect(g);g.connect(ac.destination);o.start();o2.start();o.stop(t+1.2);o2.stop(t+1.2)}
